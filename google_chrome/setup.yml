@@ -4,7 +4,7 @@
   register: _chrome_installed_version
   changed_when: false
   failed_when: false
-`
+
 - name: Set decision to install Google Chrome
   set_fact:
     chrome_install: "{{ _chrome_installed_version.rc == 1 }}"
@@ -19,4 +19,4 @@
   apt:
     deb: "/tmp/{{ chrome_package }}"
     state: present
-  when: chrome_install
+  when: packages['{{chrome_package_name}}'] is defined

@@ -1,0 +1,18 @@
+---
+- name: "Add GCP SDK to source.list"
+  apt_repository:
+    repo: deb http://packages.cloud.google.com/apt cloud-sdk main
+    filename: google-cloud-sdk.list
+  when: packages['google-cloud-sdk'] is defined
+
+- name: "Add google apt key"
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  when: packages['google-cloud-sdk'] is defined
+
+- name: "Install SDK"
+  apt:
+    pkg: google-cloud-sdk
+    update_cache: yes
+    cache_valid_time: 84000
+  when: packages['google-cloud-sdk'] is defined

@@ -1,0 +1,80 @@
+---
+
+- hosts: local
+  connection: local #execute on controller
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Install packages related to programming"
+      apt:
+        name: 
+          - git
+          - python2.7
+          - python3
+          - python3-venv
+          - perl
+          - ruby
+          - openjdk-11-jdk
+          - openjdk-8-jdk
+          - make
+          - gcc
+          - g++
+          - cpp
+          - ncurses-base
+          - ncurses-bin
+          - iotop
+          - bmon
+          - sysstat
+          - net-tools
+          - aircrack-ng
+          - p7zip
+          - bzip2
+          - okular
+          - apt-transport-https
+          - ca-certificates
+          - gnupg-agent
+          - software-properties-common
+        state: latest
+        update_cache: true
+        autoclean: true
+        autoremove: true
+
+- hosts: local
+  connection: local
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Install google chrome"
+      include: "google_chrome/install.yml"
+
+- hosts: local
+  connection: local
+  become: yes
+  become_user: khoa
+  tasks:
+    - name: "Install AWS CLI"
+      include: "devops/aws.yml"
+
+- hosts: local
+  connection: local
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Install GCP CLI"
+      include: "devops/gcp.yml"
+
+- hosts: local
+  connection: local
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Install kubernetes"
+      include: "devops/kubernetes.yml"
+
+- hosts: local
+  connection: local
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Install docker"
+      include: "devops/docker.yml"

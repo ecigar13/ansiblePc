@@ -1,0 +1,15 @@
+---
+- name: "Add boot-repair tool to restore Ubuntu after installing windows"
+  apt_repository: 
+    repo: "ppa:yannubuntu/boot-repair"
+    state: present
+
+- name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
+
+- name: "Install boot-repair"
+  apt:
+    pkg: boot-repair
+  when: packages['boot-repair'] is defined
