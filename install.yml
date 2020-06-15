@@ -34,24 +34,26 @@
           - ca-certificates
           - gnupg-agent
           - software-properties-common
+          - calibre
         state: latest
         update_cache: true
         autoclean: true
         autoremove: true
 
-- hosts: local
+- name: Install DevOps tools
+  hosts: local
   connection: local
   become: yes
   become_user: root
   tasks:
     - name: "Install google chrome"
       include: "google_chrome/install.yml"
-
-- hosts: local
-  connection: local
-  become: yes
-  become_user: khoa
-  tasks:
+    - name: "Install GCP CLI"
+      include: "devops/gcp.yml"
+    - name: "Install kubernetes"
+      include: "devops/kubernetes.yml"
+    - name: "Install docker"
+      include: "devops/docker.yml"
     - name: "Install AWS CLI"
       include: "devops/aws.yml"
 
@@ -60,21 +62,7 @@
   become: yes
   become_user: root
   tasks:
-    - name: "Install GCP CLI"
-      include: "devops/gcp.yml"
+    - name: "Install boot-repair"
+      include: "utils/boot_repair.yml"
 
-- hosts: local
-  connection: local
-  become: yes
-  become_user: root
-  tasks:
-    - name: "Install kubernetes"
-      include: "devops/kubernetes.yml"
-
-- hosts: local
-  connection: local
-  become: yes
-  become_user: root
-  tasks:
-    - name: "Install docker"
-      include: "devops/docker.yml"
+  

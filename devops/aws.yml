@@ -1,27 +1,32 @@
 ---
-# Import variables
-- name: "Include variables from vars.yml"
-  include_vars: "vars.yml"
 
-- name: unarchive AWS zip file
-  unarchive:
-    src: "{{ aws_url }}"
-    dest: /tmp/
-    remote_src: yes
+- name: "Install AWS for my account (non-root)"
+  block:
+  # Import variables
+  - name: "Include variables from vars.yml"
+    include_vars: "vars.yml"
 
-- name: "Install AWS from unarchived folder"
-  shell: /tmp/aws/install --update # use local user
+  - name: unarchive AWS zip file
+    unarchive:
+      src: "{{ aws_url }}"
+      dest: /tmp/
+      remote_src: yes
 
-- name: "Delete AWS dir after installing"
-  file: 
-    path: /tmp/aws
-    state: absent
+  - name: "Install AWS from unarchived folder"
+    shell: /tmp/aws/install --update # use local user
 
-- name: "Add aws_completer"
-  blockinfile:
-    path: /home/khoa/.bashrc
-    marker: "# {mark} ANSIBLE MANAGED BLOCK"
-    block: |
-      export PATH=/home/khoa/.local/bin/aws_completer:$PATH
-      complete -C '/home/khoa/.local/bin/aws_completer' aws
+  - name: "Delete AWS dir after installing"
+    file: 
+      path: /tmp/aws
+      state: absent
+
+  - name: "Add aws_completer"
+    blockinfile:
+      path: /home/khoa/.bashrc
+      marker: "# {mark} ANSIBLE MANAGED BLOCK"
+      block: |
+        export PATH=/home/khoa/.local/bin/aws_completer:$PATH
+        complete -C '/home/khoa/.local/bin/aws_completer' aws
+  become: yes
+  become_user: khoa
 
