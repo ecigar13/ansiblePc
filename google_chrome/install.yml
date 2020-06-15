@@ -1,0 +1,16 @@
+# Import variables
+- name: "Include variables from Debian.yml"
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include: configure.yml
+  static: no
+  when: ansible_architecture == "x86_64"
+
+- include: setup.yml
+  static: no
+  when: ansible_os_family == 'Debian'
+
+- name: Delete package file
+  file:
+    dest: "/tmp/{{ chrome_package }}"
+    state: absent

@@ -25,3 +25,11 @@
         autoclean: true
         autoremove: true
 
+- hosts: local
+  connection: local
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Install google chrome"
+      include: "google_chrome/install.yml"
+
