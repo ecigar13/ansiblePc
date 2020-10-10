@@ -1,0 +1,4 @@
+---
+- name: "Install Rescue Time from web"
+  apt:
+    deb: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb

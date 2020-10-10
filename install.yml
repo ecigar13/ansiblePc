@@ -56,6 +56,8 @@
       include: "devops/docker.yml"
     - name: "Install AWS CLI"
       include: "devops/aws.yml"
+    - name: "Install Rescue Time"
+      include: "timeTracking/rescueTime.yml"
 
 - hosts: local
   connection: local
